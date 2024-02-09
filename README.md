@@ -1,73 +1,66 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Задание Диск
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Необходимо реализовать приложение, которое бы позволило хранить файлы, а так же организовывать папочные структуру
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Для это необходимо реализовать следующий набор ендпоинтов
 
-## Description
+- Регистрация
+- Авторизация
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Installation
+- Просмотр папки
+- Создание папки
+- Редактирование папки
+- Удаление папки
 
-```bash
-$ npm install
-```
 
-## Running the app
+- Загрузка файла на сервер в определенную папку
+- Удаление файла из папки
 
-```bash
-# development
-$ npm run start
+## Авторизация и Регистрация
 
-# watch mode
-$ npm run start:dev
+При регистрации пользователь вводит логин и пароль. Пароль должен храниться в `хешированном виде`
 
-# production mode
-$ npm run start:prod
-```
+Авторизация должна присходить посредствами JWT, можно использовать эту [библиотеку](https://www.npmjs.com/package/jsonwebtoken)
 
-## Test
 
-```bash
-# unit tests
-$ npm run test
+## Папки
 
-# e2e tests
-$ npm run test:e2e
+При создании `нового пользователя` должна создавать корневая папка root для данного пользователя, все остальные папки могут 
+находиться либо в ней, либо в дочерних папках
 
-# test coverage
-$ npm run test:cov
-```
+У папки обязательно должны быть поля
 
-## Support
+    - name - string
+    - userId - string (id пользователя)
+    - parentId - string (ссылка на родительскую таблицу)
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Должна быть возможность изменить название или parentId `(сделать перемещение папки из одной в другую)`
 
-## Stay in touch
+**Необходимо запретить удаление и редактирование root папки**  
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
-## License
+## Файлы
 
-Nest is [MIT licensed](LICENSE).
+Необходимо добавить возможность добавления файла в папку.
+Для этого нужно загрузить файл на сервер, а затем сохранить в бд путь до файла на сервере
+
+У файла обязательно должны быть поля
+
+    - name - string
+    - filepath - string (пусть до файла на сервере)
+    - folderId - string (id папки в которой он находится)
+
+Так же необходимо реализовать удаление файла из бд и с сервера.
+
+**Редактирование реализовывать не нужно**
+
+## Информация к выполнению
+
+Можно использовать либо PostgreSQL или MongoDB. Так же можно использовать любые вспомогательные библиотеки
+
+Необходимо реализовать swagger документацию, для удобной интеграции с API
+
+Так же необходимо настроить CORS политики, для возможности интеграции с API с другого домена
+
+Для реализации приложения рекомендовано использовать [nest.js](https://docs.nestjs.com/), но также можно использовать и express
